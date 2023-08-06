@@ -16,3 +16,10 @@ export async function findUrlByShortUrlRepository(shortUrl) {
 export async function findUrlByIdRepository(id) {
   return connection.query(`SELECT id, "shortUrl", url FROM urls WHERE id = $1`, [id]);
 }
+
+export async function updateVisitCountRepository(shortUrl) {
+  return connection.query(
+    `UPDATE urls SET "visitCount" = "visitCount" + 1 WHERE "shortUrl" = $1`,
+    [shortUrl]
+  );
+}

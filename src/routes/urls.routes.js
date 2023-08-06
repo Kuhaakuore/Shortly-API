@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUrl, getUrl } from "../controllers/urls.controller.js";
+import { createUrl, getUrl, redirectToUrl } from "../controllers/urls.controller.js";
 import validateAuth from "../middlewares/validateAuth.middleware.js";
 import validateSchema from "../middlewares/validateSchema.middleware.js";
 import { urlSchema } from "../schemas/url.schemas.js";
@@ -13,5 +13,6 @@ urlsRouter.post(
   createUrl
 );
 urlsRouter.get("/urls/:id", getUrl);
+urlsRouter.get("/urls/open/:shortUrl", redirectToUrl);
 
 export default urlsRouter;

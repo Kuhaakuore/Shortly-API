@@ -2,6 +2,7 @@ import {
   createUrlRepository,
   findUrlByIdRepository,
   findUrlByShortUrlRepository,
+  updateVisitCountRepository,
 } from "../repositories/url.repository.js";
 import { generateShortUrl } from "../services/url.service.js";
 
@@ -32,8 +33,27 @@ export async function getUrl(req, res) {
     if (!url) {
       return res.status(404).send({ message: "URL not found" });
     }
-    
+
     res.status(200).send(url);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send(err.message);
+  }
+}
+
+export async function redirectToUrl(req, res) {
+  try {
+    const url = (await findUrlByShortUrlRepository(req.params.shortUrl))
+      .rows[0];
+
+    if (!url) {
+      return res.status(404).send({ message: "URL not found" });
+    }
+
+    await updateVisitCountRepository(url.shortUrl);
+
+
+    res.redirect(url.url);
   } catch (err) {
     console.log(err.message);
     res.status(500).send(err.message);
