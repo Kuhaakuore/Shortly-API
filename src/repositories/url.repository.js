@@ -23,3 +23,17 @@ export async function updateVisitCountRepository(shortUrl) {
     [shortUrl]
   );
 }
+
+export async function getUrlsRepository(id) {
+  return connection.query(
+    `SELECT * FROM urls WHERE "id" = $1`,
+    [id]
+  );
+}
+
+export async function deleteUrlRepository(id) {
+  return connection.query(
+    `DELETE FROM urls WHERE id = $1`,
+    [id]
+  );
+}
