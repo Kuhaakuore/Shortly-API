@@ -17,7 +17,7 @@ export async function signUp(req, res) {
     }
 
     if (password !== confirmPassword) {
-      return res.status(400).send("Password does not match");
+      return res.status(422).send("Password does not match");
     }
 
     const salt = await bcrypt.genSalt(10);
