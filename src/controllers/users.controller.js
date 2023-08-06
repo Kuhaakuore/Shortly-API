@@ -1,5 +1,6 @@
 import {
   createUserRepository,
+  getUserDataByIdRepository,
   getUserRepository,
 } from "../repositories/user.repository.js";
 import bcrypt from "bcrypt";
@@ -50,6 +51,28 @@ export async function signIn(req, res) {
     const token = generateToken(user.rows[0].id);
 
     res.status(200).send({ token });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send(err.message);
+  }
+}
+
+export async function getUserData(req, res) {
+  const { userId } = res.locals;
+
+  try {
+    const userData = (await getUserDataByIdRepository(userId)).rows[0];
+
+    if (!userData) {
+      return res.status(404).send("User not found");
+    }
+
+    userData.visitCount = userData.visitCount || 0;
+    if (userData.shortenedUrls[0].id === null) {
+      userData.shortenedUrls = [];
+    }
+
+    res.status(200).send(userData);
   } catch (err) {
     console.log(err);
     res.status(500).send(err.message);
