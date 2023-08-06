@@ -8,5 +8,11 @@ export async function createUrlRepository(userId, url, shortUrl) {
 }
 
 export async function findUrlByShortUrlRepository(shortUrl) {
-  return connection.query(`SELECT * FROM urls WHERE "shortUrl" = $1`, [shortUrl]);
+  return connection.query(`SELECT * FROM urls WHERE "shortUrl" = $1`, [
+    shortUrl,
+  ]);
+}
+
+export async function findUrlByIdRepository(id) {
+  return connection.query(`SELECT id, "shortUrl", url FROM urls WHERE id = $1`, [id]);
 }

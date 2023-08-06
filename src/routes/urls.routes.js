@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUrl } from "../controllers/urls.controller.js";
+import { createUrl, getUrl } from "../controllers/urls.controller.js";
 import validateAuth from "../middlewares/validateAuth.middleware.js";
 import validateSchema from "../middlewares/validateSchema.middleware.js";
 import { urlSchema } from "../schemas/url.schemas.js";
@@ -12,5 +12,6 @@ urlsRouter.post(
   validateSchema(urlSchema),
   createUrl
 );
+urlsRouter.get("/urls/:id", getUrl);
 
 export default urlsRouter;
